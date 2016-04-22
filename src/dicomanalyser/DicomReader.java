@@ -9,6 +9,7 @@ import com.pixelmed.dicom.TagFromName;
 import com.pixelmed.display.SourceImage;
 import com.pixelmed.dicom.CompressedFrameDecoder;
 import com.pixelmed.dicom.DicomException;
+import java.util.ArrayList;
 import java.io.File;
 import com.pixelmed.display.ConsumerFormatImageMaker;
 import java.awt.Color;
@@ -29,10 +30,10 @@ public class DicomReader {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        file();
+        //file();
         //imagePane();
         //convert();
-        //imagePixel();
+        imagePixel();
     }
     
     
@@ -74,7 +75,7 @@ public class DicomReader {
     private static void imagePane() {
         String path = System.getProperty("user.dir") + "/dicomImigies/IM-0001-0001.dcm";
         //String path = System.getProperty("user.dir") + "/dicomImigies/CENOVIX.zip";
-        //File img = new File(path);
+        File img = new File(path);
         //System.out.println(CompressedFrameDecoder.canDecompress(img));
         JFrame frame = new JFrame(); 
         SourceImage sImg;
@@ -83,7 +84,7 @@ public class DicomReader {
             sImg = new SourceImage(path);                                    
            
             System.out.println("2");
-            //SingleImagePanel panel = new SingleImagePanel(sImg);            
+            SingleImagePanel panel = new SingleImagePanel(sImg);            
                        
             System.out.println("3");
             //frame.add(panel);
@@ -114,38 +115,25 @@ public class DicomReader {
     private static void imagePixel() {
         try {
             String path = System.getProperty("user.dir") + "/dicomImigies/IM-0001-0001.dcm";
-            SourceImage sImg;
+            SourceImage sImg = new SourceImage(path); 
+            ArrayList<int[]> histogram = new ArrayList<int[]>();            
+            BufferedImage bImg = sImg.getBufferedImage(); 
             
-            //JFrame frame = new JFrame(); 
             
-            sImg = new SourceImage(path);
-            //System.out.println(sImg.);
-            BufferedImage bImg = sImg.getBufferedImage();
-            
-            //frame.getContentPane().add(new JLabel(new ImageIcon(bImg)));
-            //frame.pack();
-            //frame.setVisible(true);
-            
-            System.out.println("Height: " + bImg.getHeight());
-            System.out.println("Width: " + bImg.getWidth());
-                        
-            int color = bImg.getRGB(150, 150);
-            
-            //returns valid rgb
-            System.out.println("Color: " + color);            
-            System.out.println("Red1: " + ((color & 0x00ff0000) >> 16));
-            System.out.println("Green1: " + ((color & 0x0000ff00) >> 8));
-            System.out.println("Blue1: " + ((color & 0x000000ff)));
-            
-            //returns valid rgb
-            Color col = new Color(bImg.getRGB(150, 150));
-            int red = col.getRed();
-            int blue = col.getGreen();
-            int green = col.getBlue();
-            
-            System.out.println("Red2: " + red);
-            System.out.println("Green2: " + blue);
-            System.out.println("Blue2: " + green);
+            //create histogram                                    
+            for(int i=0; i<bImg.getHeight(); i++) {
+                for(int j=0; j<bImg.getWidth(); j++) {    
+                    int[] pixelStat = new int[2]; //histogram pixel value, statistic
+                    pixelStat[0] = bImg.getRGB(j, i);
+                    pixelStat[1] = 1;
+                    histogram.add(pixelStat);                                     
+                }
+            }           
+            System.out.println(histogram.size());
+            //Otsu thresholding
+            for(int i=0; i<histogram.size(); i++) {
+                System.out.println(histogram.get(i)[0]);
+            }
         } catch(Exception e) {
             System.out.println("Error:" + e);
         }
