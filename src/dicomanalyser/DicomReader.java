@@ -114,10 +114,25 @@ public class DicomReader {
     }
  
     
+    private static void fileSort(String[] files) {
+        for(int i = 0; i < files.length; i++) {
+            //sort file path's before thresholding(time tags are epsent)
+            try {
+                AttributeList list = new AttributeList();
+                list.setDecompressPixelData(false);
+                list.read(files[i]);    
+                Attribute.getDelimitedStringValuesOrEmptyString(list, TagFromName.InstanceNumber);
+            } catch(Exception e) {
+                System.out.println("Error: " + e);
+            }
+        }
+    }
+    
+    
     private static void otsuThresholding() {
         //will have issues with 2 or 1 colored image
         try {
-            String path = System.getProperty("user.dir") + "/dicomImigies/IM-0001-0001.dcm";
+            String path = System.getProperty("user.dir") + "/dicomImigies/IM-0001-0361.dcm"; //IM-0001-0001.dcm
             SourceImage sImg = new SourceImage(path); 
             BufferedImage bImg = sImg.getBufferedImage(); 
             ArrayList<Object[]> histogram = new ArrayList<Object[]>(); //histogram  
@@ -135,17 +150,17 @@ public class DicomReader {
                 }
             }            
             //histogram itself
-            //DO I NEED TO SORT GREY COLORS?
+            //SORT GREY COLORS!!
             for(int i=0; i<numOfColors.size(); i++) {
                 Object[] temp = new Object[2];
                 temp[0] = numOfColors.get(i); //pixel rgb                
                 temp[1] = Collections.frequency(numOfPixels, numOfColors.get(i)); //frequency
                 Color c = new Color((int)temp[0], true);
-                System.out.println(c.getRed());
+                /*System.out.println(c.getRed());
                 System.out.println(c.getGreen());
                 System.out.println(c.getBlue());
                 System.out.println((int)temp[0]);
-                System.out.println("----------");
+                System.out.println("----------");*/
                 histogram.add(temp);                
             }
             
@@ -222,18 +237,86 @@ public class DicomReader {
         } catch(Exception e) {System.out.println("Error:" + e);}                
     }
     
-   
-    private static void fileSort(String[] files) {
-        for(int i = 0; i < files.length; i++) {
-            //sort file path's before thresholding(time tags are epsent)
-            try {
-                AttributeList list = new AttributeList();
-                list.setDecompressPixelData(false);
-                list.read(files[i]);    
-                Attribute.getDelimitedStringValuesOrEmptyString(list, TagFromName.InstanceNumber);
-            } catch(Exception e) {
-                System.out.println("Error: " + e);
+    
+    private static ArrayList<Object[]> otsuHistogram(BufferedImage bImg) {
+        ArrayList<Object[]> histogram = new ArrayList<Object[]>(); //histogram  
+        //create histogram
+        ArrayList numOfPixels = new ArrayList(); //number of pixels
+        ArrayList numOfColors = new ArrayList(); //number of grey colors
+        for(int i=0; i<bImg.getHeight(); i++) {
+            for(int j=0; j<bImg.getWidth(); j++) {
+                numOfPixels.add(bImg.getRGB(j, i));
+                if(!numOfColors.contains(bImg.getRGB(j, i))) {
+                    numOfColors.add(bImg.getRGB(j, i));
+                }
             }
+        }            
+        //histogram itself
+        //DO I NEED TO SORT GREY COLORS?
+        for(int i=0; i<numOfColors.size(); i++) {
+            Object[] temp = new Object[2];
+            temp[0] = numOfColors.get(i); //pixel rgb                
+            temp[1] = Collections.frequency(numOfPixels, numOfColors.get(i)); //frequency
+            Color c = new Color((int)temp[0], true);            
+            histogram.add(temp);                
+            }
+        return histogram;
+    }
+    
+    
+    private static void otsuWithinClassVariance(ArrayList<Object[]> histogram, int numOfPixels) {
+        float[] withinClassVariance = new float[2]; //holds minimum class variance and index
+        
+        for(int T=0; T<histogram.size()-1; T++) {
+            //Background                
+            int weightB_temp = 0;
+            int meanB_temp = 0;                
+            for(int j=0; j<=T; j++) {
+                weightB_temp += (int) histogram.get(j)[1];                    
+                meanB_temp += j*(int) histogram.get(j)[1];
+            }                               
+            float WeightB = (float)weightB_temp/numOfPixels; //pixels weight                
+            float MeanB = (float)meanB_temp/weightB_temp; //pixels mean                                                                            
+            //background variance
+            float varianceB_temp = 0; 
+            for(int j=0; j<=T; j++) {                                        
+                varianceB_temp += (j-MeanB)*(j-MeanB)*(int) histogram.get(j)[1];
+            }
+            float VarianceB = varianceB_temp/weightB_temp;               
+                
+            //Foreground
+            int weightF_temp = 0;
+            int meanF_temp = 0;
+            for(int j=T+1; j<histogram.size(); j++) {                 
+                weightF_temp += (int) histogram.get(j)[1];
+                meanF_temp += j*(int) histogram.get(j)[1];
+            }                
+            float WeightF = (float)weightF_temp/numOfPixels;
+            float MeanF = (float)meanF_temp/weightF_temp;  
+            //foreground variance
+            float varianceF_temp = 0;
+            for(int j=T+1; j<histogram.size(); j++) {
+                varianceF_temp += (j-MeanF)*(j-MeanF)*(int) histogram.get(j)[1];                    
+            }
+            float VarianceF = varianceF_temp/weightF_temp;                
+                
+            //Within Class Variance                
+            if(T!=0) {                    
+                float withinClassVariance_temp = WeightB*VarianceB + WeightF*VarianceF;
+                if(withinClassVariance_temp < withinClassVariance[1]) {
+                    withinClassVariance[0] = T; //minimum T index
+                    withinClassVariance[1] = withinClassVariance_temp; //WCV value                        
+                }                    
+            } else {                        
+                withinClassVariance[0] = T; //minimum T index
+                withinClassVariance[1] = WeightB*VarianceB + WeightF*VarianceF; //WCV value                    
+            }                
         }
     }
+    
+    
+    private static void thresholdImage() {
+        
+    }
+    
 }

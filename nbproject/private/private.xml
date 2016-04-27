@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/DemoJFileChooser.java</file>
-            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/DicomReader.java</file>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/StartWindow.java</file>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/TagSorter.java</file>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/DicomLoader.java</file>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/MainWindow.java</file>
         </group>
     </open-files>
 </project-private>

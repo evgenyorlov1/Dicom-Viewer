@@ -24,8 +24,7 @@ public class DemoJFileChooser extends JPanel
 
 public void actionPerformed(ActionEvent e) {
     int result;
-    String[] dcmFiles; //path to imagies. It is returned
-        
+    String[] dcmFiles; //path to imagies. It is returned        
     chooser = new JFileChooser(); 
     chooser.setCurrentDirectory(new java.io.File("."));
     chooser.setDialogTitle(choosertitle);
