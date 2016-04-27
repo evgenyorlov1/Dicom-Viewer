@@ -19,20 +19,21 @@ import java.util.ArrayList;
 public class TagSorter {
     
     
-    public static ArrayList<String[]> tagSort(String[] dcmFiles) { 
-        //System.out.println("TagSorter.tagSort");
-        ArrayList<String[]> sortedDcm = new ArrayList<String[]>();        
+    public static ArrayList<String[]> tagSort(String[] dcmFiles) {         
+        ArrayList<String[]> sortedDcm = new ArrayList<String[]>();                           
         try {      
-            dcmFiles = insertionSort(dcmFiles, TagFromName.SliceLocation);
-            int slicer;
-            for(int i=0; i<dcmFiles.length; i++) {
+            dcmFiles = insertionSort(dcmFiles, TagFromName.SliceLocation); //sort by Slice location            
+            int slicer = Integer.valueOf(tagValue(dcmFiles[0], TagFromName.InstanceNumber));
+            for(int i=1; i<dcmFiles.length; i++) {                
                 int slicer_temp = Integer.valueOf(tagValue(dcmFiles[i], TagFromName.InstanceNumber));
-                String[] slicedFiles = sliceFiles(dcmFiles, TagFromName.InstanceNumber, 8);
-                slicedFiles = insertionSort(slicedFiles, TagFromName.InstanceNumber);   
-                sortedDcm.add(slicedFiles);
+                if(slicer != slicer_temp) {                    
+                    String[] slicedFiles = sliceFiles(dcmFiles, TagFromName.InstanceNumber, slicer);                    
+                    slicedFiles = insertionSort(slicedFiles, TagFromName.InstanceNumber);   
+                    sortedDcm.add(slicedFiles);
+                    slicer = slicer_temp;
+                }                
             }            
-            //showFiles(dcmFiles, TagFromName.InstanceNumber);
-            return sortedDcm;
+            return sortedDcm;            
         } catch(Exception e) {System.out.println("TagSorter.sort error: " + e);}
         return sortedDcm;
     }
@@ -83,11 +84,11 @@ public class TagSorter {
     
     
     private static <Type> String[] sliceFiles(String[] dcmFiles, AttributeTag tag, Type slicer) {
-        System.out.println("TagSorter.sliceFiles");
+        //System.out.println("TagSorter.sliceFiles");
         String[] slicedFiles = null;
         try {
             int j = 0;
-            for(int i=0; i<dcmFiles.length; i++) {
+            for(int i=0; i<=dcmFiles.length; i++) {
                 Type value_temp = (Type)tagValue(dcmFiles[i], tag);
                 if(value_temp == slicer) {
                     slicedFiles[j] = dcmFiles[i];

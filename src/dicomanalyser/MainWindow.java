@@ -6,6 +6,7 @@
 package dicomanalyser;
 
 import com.pixelmed.display.*;
+import java.util.ArrayList;
 /**
  *
  * @author pc
@@ -15,8 +16,18 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form MainWindow
      */
-    public MainWindow() {
+    public MainWindow(ArrayList<String[]> dcmFiles) {
+        setResizable(false);
+        setVisible(true);
         initComponents();
+        try {
+            String path = System.getProperty("user.dir") 
+                    + "/dicomImigies/img/IM-0001-0003.dcm";
+            SourceImage sImg = new SourceImage(path);
+            DicomImagePanel imagePanel = new DicomImagePanel(sImg);
+            jPanel1.add(imagePanel);
+            
+        } catch(Exception e) {}                
     }
 
     /**
@@ -45,8 +56,11 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
+        jSlider1.setToolTipText("Instance number");
+
         jSlider2.setBackground(new java.awt.Color(52, 49, 255));
         jSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
+        jSlider2.setToolTipText("Slice location");
 
         jPanel1.setBackground(new java.awt.Color(228, 136, 45));
         jPanel1.setForeground(new java.awt.Color(176, 58, 58));
@@ -114,37 +128,6 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu1;
