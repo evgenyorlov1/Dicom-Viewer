@@ -6,7 +6,7 @@
 package dicomanalyser;
 
 /**
- *
+*put images to class 
  * @author pc
  */
 import com.pixelmed.dicom.Attribute;
@@ -20,7 +20,7 @@ public class TagSorter {
     
     
     public static ArrayList<String[]> tagSort(String[] dcmFiles) {         
-        ArrayList<String[]> sortedDcm = new ArrayList<String[]>();                           
+        ArrayList<String[]> sortedDcm = new ArrayList<String[]>();          
         try {      
             dcmFiles = insertionSort(dcmFiles, TagFromName.SliceLocation); //sort by Slice location            
             int slicer = Integer.valueOf(tagValue(dcmFiles[0], TagFromName.InstanceNumber));
@@ -57,7 +57,28 @@ public class TagSorter {
             }   
             return dcmFiles;
         } catch(Exception e) {System.out.println("TagSorter.insertionSort error: " + e);}        
-        return null;
+        return dcmFiles;
+    }
+    
+    
+    public static ArrayList insertionSort(ArrayList z) {        
+        try {
+            for(int i=1; i<z.size(); i++) {                               
+                int j = i;
+                while(j>0) {                                        
+                    float current = (float) z.get(j);                    
+                    float previous = (float) z.get(j-1);                                          
+                    if(previous > current) {
+                        float temp  = (float) z.get(j-1);
+                        z.set(j-1, z.get(j));
+                        z.set(j, temp);
+                    }
+                    j -= 1;
+                }                                                
+            }       
+            return z;
+        } catch(Exception e) {System.out.println("TagSorter.insertionSort error: " + e);}        
+        return z;      
     }
     
     
@@ -83,6 +104,7 @@ public class TagSorter {
     } 
     
     
+    //Fix
     private static <Type> String[] sliceFiles(String[] dcmFiles, AttributeTag tag, Type slicer) {
         //System.out.println("TagSorter.sliceFiles");
         String[] slicedFiles = null;

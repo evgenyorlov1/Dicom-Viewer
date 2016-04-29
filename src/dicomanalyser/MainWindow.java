@@ -7,6 +7,8 @@ package dicomanalyser;
 
 import com.pixelmed.display.*;
 import java.util.ArrayList;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 /**
  *
  * @author pc
@@ -16,18 +18,29 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form MainWindow
      */
-    public MainWindow(ArrayList<String[]> dcmFiles) {
+    public MainWindow(ArrayList<DICOMImage> dcmFiles) {
         setResizable(false);
         setVisible(true);
         initComponents();
         try {
             String path = System.getProperty("user.dir") 
-                    + "/dicomImigies/img/IM-0001-0003.dcm";
-            SourceImage sImg = new SourceImage(path);
-            DicomImagePanel imagePanel = new DicomImagePanel(sImg);
-            jPanel1.add(imagePanel);
-            
-        } catch(Exception e) {}                
+                    + "/dicomImigies/img/IM-0001-0003.dcm";            
+            SingleImagePanel imagePane = 
+                    new SingleImagePanel(new SourceImage(path));   
+            add(imagePane);
+        } catch(Exception e) {}  
+        
+        jSlider1.addChangeListener(new ChangeListener() {
+           public void stateChanged(ChangeEvent e) {
+             //jLabel1.setText("Value : " + jSlider1.getValue());
+           }
+        });
+        
+        jSlider2.addChangeListener(new ChangeListener() {
+           public void stateChanged(ChangeEvent e) {
+             //jLabel2.setText("Value : " + jSlider2.getValue());
+           }
+        });        
     }
 
     /**
@@ -62,14 +75,11 @@ public class MainWindow extends javax.swing.JFrame {
         jSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
         jSlider2.setToolTipText("Slice location");
 
-        jPanel1.setBackground(new java.awt.Color(228, 136, 45));
-        jPanel1.setForeground(new java.awt.Color(176, 58, 58));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 784, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,10 +115,8 @@ public class MainWindow extends javax.swing.JFrame {
                 .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

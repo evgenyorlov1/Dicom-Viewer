@@ -5,6 +5,7 @@
  */
 package dicomanalyser;
 
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -16,7 +17,8 @@ import javax.swing.JFrame;
 public class DicomLoader {
     
     
-    public String[] getFolder(JFrame frame) {
+    public DICOMStore getFolder(JFrame frame) {
+        DICOMStore dcmImages = new DICOMStore();
         String[] dcmFiles = null;
         JFileChooser chooser = new JFileChooser();
         try {
@@ -27,15 +29,16 @@ public class DicomLoader {
             if(chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {                 
                 dcmFiles = chooser.getSelectedFile().list();                               
                 for(int i = 0; i < dcmFiles.length; i++) {
-                    dcmFiles[i] = chooser.getSelectedFile() + "/" + dcmFiles[i]; //make valid path            
+                    String path = chooser.getSelectedFile() + "/" + dcmFiles[i];                   
+                    dcmImages.add(new DICOMImage(path));
                 }                   
-            }                                   
+            }            
             else {
                 System.out.println("No Selection ");
-            }
+            }            
         } catch(Exception e) {System.err.println("DicomLoader.getFolder error: " + e);}
         
-        return dcmFiles;
+        return dcmImages;
     }   
     
     

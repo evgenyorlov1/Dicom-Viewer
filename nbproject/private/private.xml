@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="3">
+        <file>
+            <url>src/dicomanalyser/MainWindow.java</url>
+            <bookmark id="3">
+                <name/>
+                <line>0</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/ImagePane.java</file>
             <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/StartWindow.java</file>
             <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/TagSorter.java</file>
-            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/MainWindow.java</file>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/DICOMImage.java</file>
+            <file>file:/home/pc/netBeansProjects/DicomAnalyser/src/dicomanalyser/DICOMStore.java</file>
         </group>
     </open-files>
 </project-private>
