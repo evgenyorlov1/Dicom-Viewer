@@ -11,6 +11,7 @@ import com.pixelmed.dicom.AttributeTag;
 import com.pixelmed.dicom.TagFromName;
 import com.pixelmed.display.SourceImage;
 
+
 /**
  *
  * @author pc
@@ -29,7 +30,8 @@ public class DICOMImage {
                     TagFromName.InstanceNumber));
             this.sliceLocation = Float.valueOf(tagValue(this.path, 
                     TagFromName.SliceLocation));
-            this.si = new SourceImage(path); 
+            this.si = new SourceImage(path);
+            this.si.getDimension();
         } catch(Exception e) {System.out.println("DICOMImage.DICOMImage error: " + e);}
     }
     

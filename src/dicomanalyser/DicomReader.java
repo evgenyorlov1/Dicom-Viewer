@@ -13,29 +13,46 @@ import java.util.ArrayList;
 import java.io.File;
 import java.util.Collections;
 import com.pixelmed.display.ConsumerFormatImageMaker;
+import com.pixelmed.display.SourceImageSubset;
 import java.awt.Color;
+         
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageInputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.vecmath.Tuple3d;
+import org.dcm4che2.data.DicomElement;
+import org.dcm4che2.data.DicomObject;
+import org.dcm4che2.data.Tag;
+import org.dcm4che2.imageio.plugins.dcm.DicomStreamMetaData;
 /**
  *
  * @author pc
+ * 
+ * 
+ * 
  */
+
+import org.dcm4che2.imageioimpl.plugins.dcm.DicomImageReaderSpi;
+
 public class DicomReader {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, DicomException {
         // TODO code application logic here
         //file();
         //imagePane();
         //convert();
-        otsuThresholding();
+        //load();
+        loadSeries();
+        //otsuThresholding();
     }
     
     
@@ -318,5 +335,59 @@ public class DicomReader {
     private static void thresholdImage() {
         
     }
+    
+    
+    public static void load() throws IOException, DicomException {
+        String path = System.getProperty("user.dir") + 
+                "/dicomImigies/alkhimova/030001.dcm"; 
+        SourceImage si = new SourceImage(path);        
+        JFrame p = new JFrame();                
+        p.add(new SingleImagePanel(new SourceImage(path)));
+        p.setBackground(Color.BLACK);
+        p.setSize(512,512);
+        p.setVisible(true);
+            
+    }
+    
+    public static void loadSeries() {
+        
+        try {
+            System.out.println("Reading DICOM image...");
+            //String path = System.getProperty("user.dir") + 
+            //    "/dicomImigies/test/4.dcm";
+            String path = System.getProperty("user.dir") + 
+                    "/dicomImigies/IM-0001-0001.dcm";
+            File file = new File(path);
+            FileImageInputStream input = new FileImageInputStream(file);
+            ImageReader reader = new DicomImageReaderSpi().createReaderInstance();           
+            reader.setInput(input);
+            DicomStreamMetaData streamMeta = (DicomStreamMetaData) reader
+                .getStreamMetadata();
+            
+            DicomObject dob = streamMeta.getDicomObject();             
+            Iterator iter = dob.datasetIterator();
+            int num = 0;
+            System.out.println(num);
+            while(iter.hasNext()) {
+                System.out.println("af");
+                DicomElement element = (DicomElement) iter.next();
+                DicomObject obj = element.getDicomObject();
+                System.out.println(obj.get(Tag.InstanceNumber));
+                num++;
+            }
+            System.out.println(num);
+            int numFrames = reader.getNumImages(true);
+            
+            
+            //System.out.println("DICOM image has "+ numFrames +" frames...");			
+            //System.out.println("Extracting frames...");
+            //for (int i=0; i < numFrames; i++) {				
+		//System.out.println(" > Frame "+ (i+1));
+            //}			
+            System.out.println("Finished.");
+        } catch(Exception e) {                  
+            return;
+	}
+    }        
     
 }

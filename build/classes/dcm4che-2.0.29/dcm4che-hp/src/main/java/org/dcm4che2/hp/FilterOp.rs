@@ -1,0 +1,9 @@
+org.dcm4che2.hp.FilterOp$LessOrEqual
+org.dcm4che2.hp.FilterOp$MemberOf
+org.dcm4che2.hp.FilterOp$GreaterThan
+org.dcm4che2.hp.FilterOp
+org.dcm4che2.hp.FilterOp$NotMemberOf
+org.dcm4che2.hp.FilterOp$GreaterOrEqual
+org.dcm4che2.hp.FilterOp$LessThan
+org.dcm4che2.hp.FilterOp$RangeIncl
+org.dcm4che2.hp.FilterOp$RangeExcl

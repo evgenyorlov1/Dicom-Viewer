@@ -38,11 +38,13 @@ public class DICOMStore {
     
     
     public int getZ() {
+        //z size
         return z.size();
     }
     
     
     public int getT(float sliceLocation) {
+        // t size per each z
         int num = 0;
         for(int i=0; i<dcmImages.size(); i++) {
             if(sliceLocation == dcmImages.get(i).sliceLocation)

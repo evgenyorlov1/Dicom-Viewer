@@ -82,8 +82,8 @@ public class TagSorter {
     }
     
     
-    private static String tagValue(String dcmFile, AttributeTag tag) {
-        //System.out.println("TagSorter.tagValue");
+    public static String tagValue(String dcmFile, AttributeTag tag) {
+        System.out.println("TagSorter.tagValue");
         String tagValue = null;
         try {
             AttributeList list = new AttributeList();

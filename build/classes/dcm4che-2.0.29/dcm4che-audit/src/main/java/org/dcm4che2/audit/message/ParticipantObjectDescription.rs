@@ -1,0 +1,2 @@
+org.dcm4che2.audit.message.ParticipantObjectDescription$SOPClass
+org.dcm4che2.audit.message.ParticipantObjectDescription

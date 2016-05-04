@@ -5,6 +5,7 @@
  */
 package dicomanalyser;
 
+import com.pixelmed.dicom.TagFromName;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 
@@ -100,11 +101,13 @@ public class StartWindow extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:        
-        DICOMStore dcmFiles;        
-        DicomLoader loader = new DicomLoader();
-        dcmFiles = loader.getFolder(this);                
-        setVisible(false);                  
-        ImagePane pane = new ImagePane(dcmFiles);
+//        DICOMStore dcmFiles;        
+//        String path = System.getProperty("user.dir") + "/dicomImigies/alkhimova/030001.dcm";       
+//        DicomLoader loader = new DicomLoader();
+//        dcmFiles = loader.getFolder(this);
+    
+        //setVisible(false);                  
+        //ImagePane pane = new ImagePane(dcmFiles);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

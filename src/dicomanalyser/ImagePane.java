@@ -22,19 +22,14 @@ public class ImagePane extends javax.swing.JFrame {
     public ImagePane(DICOMStore dcmFiles) {
         setResizable(false);
         setVisible(true);
-        initComponents(dcmFiles);        
-        
-        zSlider.setMinimum(1);        
-        zSlider.setMaximum(dcmFiles.getZ());                
-        
+        initComponents(dcmFiles);                                           
         
         tSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {   
                 JSlider source = (JSlider) e.getSource();
                 if(!source.getValueIsAdjusting()) {
                     DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue()); 
-                    dcmPanel.dirty(image.si);
-                    System.out.println(image.instanceNumber);
+                    dcmPanel.dirty(image.si);                    
                     dcmPanel.repaint();
                 }
             }                        
@@ -45,8 +40,7 @@ public class ImagePane extends javax.swing.JFrame {
                 JSlider source = (JSlider) e.getSource();
                 if(!source.getValueIsAdjusting()) {
                     adjustTslider(zSlider.getValue());
-                    DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue());
-                    System.out.println(image.instanceNumber);
+                    DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue());                    
                     dcmPanel.dirty(image.si);               
                     dcmPanel.repaint();
                 }
@@ -153,13 +147,16 @@ public class ImagePane extends javax.swing.JFrame {
                 .addComponent(tSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-                
+                                           
+        zSlider.setMinimum(1);        
+        zSlider.setMaximum(dcmFiles.getZ());     
         zSlider.setValue(1);
         zSlider.setMajorTickSpacing(1);
-        zSlider.setPaintTicks(true);
+        zSlider.setPaintTicks(true);   
         
         tSlider.setMinimum(1);
-        tSlider.setMaximum(dcmFiles.getT((float) z.get(1)));
+        System.out.println((int) dcmFiles.getT((float) z.get(0)));
+        tSlider.setMaximum((int) dcmFiles.getT((float) z.get(0)));
         tSlider.setValue(1);
         tSlider.setPaintTicks(true);
         tSlider.setMajorTickSpacing(1);                        

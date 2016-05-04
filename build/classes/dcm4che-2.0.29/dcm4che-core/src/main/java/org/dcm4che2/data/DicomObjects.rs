@@ -1,0 +1,5 @@
+org.dcm4che2.data.DicomObjects$UnmodifiabledIterator
+org.dcm4che2.data.DicomObjects$UnmodifiableDicomObject
+org.dcm4che2.data.DicomObjects$UnmodifiableVisitor
+org.dcm4che2.data.DicomObjects$UnmodifiableDicomElement
+org.dcm4che2.data.DicomObjects

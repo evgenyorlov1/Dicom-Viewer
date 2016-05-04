@@ -1,0 +1,14 @@
+org.dcm4che2.hp.HPSelectorFactory$AttributeValueSelector
+org.dcm4che2.hp.HPSelectorFactory$AttributeSelectorDecorator
+org.dcm4che2.hp.HPSelectorFactory$UInt
+org.dcm4che2.hp.HPSelectorFactory$Seq
+org.dcm4che2.hp.HPSelectorFactory$BaseAttributeSelector
+org.dcm4che2.hp.HPSelectorFactory
+org.dcm4che2.hp.HPSelectorFactory$Str
+org.dcm4che2.hp.HPSelectorFactory$Int
+org.dcm4che2.hp.HPSelectorFactory$CodeValueSelector
+org.dcm4che2.hp.HPSelectorFactory$AttributePresenceSelector
+org.dcm4che2.hp.HPSelectorFactory$FctGrp
+org.dcm4che2.hp.HPSelectorFactory$Flt
+org.dcm4che2.hp.HPSelectorFactory$Dbl
+org.dcm4che2.hp.HPSelectorFactory$AttributeSelector

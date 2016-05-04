@@ -1,0 +1,6 @@
+org.dcm4che2.hp.HPComparatorFactory$Seq
+org.dcm4che2.hp.HPComparatorFactory$AttributeComparatorDecorator
+org.dcm4che2.hp.HPComparatorFactory$FctGrp
+org.dcm4che2.hp.HPComparatorFactory
+org.dcm4che2.hp.HPComparatorFactory$SortByAttribute
+org.dcm4che2.hp.HPComparatorFactory$AttributeComparator

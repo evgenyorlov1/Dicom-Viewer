@@ -1,0 +1,14 @@
+org.dcm4che2.tool.dcmups.DcmUPS$1
+org.dcm4che2.tool.dcmups.DcmUPS$EventReportService
+org.dcm4che2.tool.dcmups.DcmUPS$Priority
+org.dcm4che2.tool.dcmups.DcmUPS
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$1
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$2
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$3
+org.dcm4che2.tool.dcmups.DcmUPS$Operation
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$4
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$5
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$6
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$7
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$8
+org.dcm4che2.tool.dcmups.DcmUPS$Operation$9
