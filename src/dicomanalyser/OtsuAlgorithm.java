@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Otsu's thresholding method is Clustering-based methods
+ * 
  */
 package dicomanalyser;
 
@@ -27,20 +26,17 @@ public class OtsuAlgorithm {
         
         String path = System.getProperty("user.dir") + 
                 "/dicomImigies/img/IM-0001-0003.dcm";        
-        SourceImage sImg = new SourceImage(path); 
-        System.out.println("1");
+        SourceImage sImg = new SourceImage(path);         
         BufferedImage original = sImg.getBufferedImage();
-        grayscale = original;
-        System.out.println("2");
-        binarized = binarize(original);
-        System.out.println("3");
+        grayscale = original;        
+        binarized = binarize(original);        
         writeImage();         
  
     }
     
     
     // Return histogram of grayscale image
-    public static int[] imageHistogram(BufferedImage input) {
+    private static int[] imageHistogram(BufferedImage input) {
  
         int[] histogram = new int[256];
         for(int i=0; i<histogram.length; i++) histogram[i] = 0;
@@ -57,7 +53,7 @@ public class OtsuAlgorithm {
     // Get binary treshold using Otsu's method
     private static int otsuTreshold(BufferedImage original) {
  
-        int[] histogram = imageHistogram(original);
+        int[] histogram = imageHistogram(original);        
         int total = original.getHeight() * original.getWidth();
         float sum = 0;
         for(int i=0; i<256; i++) sum += i * histogram[i];
@@ -87,8 +83,9 @@ public class OtsuAlgorithm {
     private static BufferedImage binarize(BufferedImage original) {
         int red;
         int newPixel;
-        int threshold = otsuTreshold(original);
-        BufferedImage binarized = new BufferedImage(original.getWidth(), original.getHeight(), BufferedImage.TYPE_INT_RGB);
+        int threshold = otsuTreshold(original);         
+        BufferedImage binarized = new BufferedImage(original.getWidth(), 
+                original.getHeight(), BufferedImage.TYPE_INT_RGB);
         for(int i=0; i<original.getWidth(); i++) {
             for(int j=0; j<original.getHeight(); j++) {
                 // Get pixels
@@ -105,7 +102,7 @@ public class OtsuAlgorithm {
  
             }
         }
-        return binarized;
+        return binarized;        
     }
     
     
