@@ -81,6 +81,7 @@ public class OtsuAlgorithm {
     
     
     private static BufferedImage binarize(BufferedImage original) {
+        
         int red;
         int newPixel;
         int threshold = otsuTreshold(original);         
