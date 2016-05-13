@@ -25,7 +25,7 @@ public class OtsuAlgorithm {
     public static void main(String[] args) throws IOException, DicomException {
         
         String path = System.getProperty("user.dir") + 
-                "/dicomImigies/img/IM-0001-0003.dcm";        
+                "/dicomImigies/img/030001.dcm";        
         SourceImage sImg = new SourceImage(path);         
         BufferedImage original = sImg.getBufferedImage();
         grayscale = original;        
@@ -121,7 +121,7 @@ public class OtsuAlgorithm {
  
 
     private static void writeImage() throws IOException {
-        File file = new File("image1.jpg");
+        File file = new File("imageOtsu.jpg");
         ImageIO.write(binarized, "jpg", file);
         System.out.println("Done");        
     }

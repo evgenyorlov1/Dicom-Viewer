@@ -82,8 +82,28 @@ public class TagSorter {
     }
     
     
-    public static String tagValue(String dcmFile, AttributeTag tag) {
-        System.out.println("TagSorter.tagValue");
+    public static ArrayList insertionSortInteger(ArrayList z) {        
+        try {
+            for(int i=1; i<z.size(); i++) {                               
+                int j = i;
+                while(j>0) {                                        
+                    int current = (int) z.get(j);                    
+                    int previous = (int) z.get(j-1);                                          
+                    if(previous > current) {
+                        int temp  = (int) z.get(j-1);
+                        z.set(j-1, z.get(j));
+                        z.set(j, temp);
+                    }
+                    j -= 1;
+                }                                                
+            }       
+            return z;
+        } catch(Exception e) {System.out.println("TagSorter.insertionSort error: " + e);}        
+        return z;      
+    }
+    
+    
+    public static String tagValue(String dcmFile, AttributeTag tag) {        
         String tagValue = null;
         try {
             AttributeList list = new AttributeList();

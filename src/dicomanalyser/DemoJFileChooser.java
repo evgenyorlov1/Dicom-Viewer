@@ -39,10 +39,7 @@ public void actionPerformed(ActionEvent e) {
             +  chooser.getCurrentDirectory());
         System.out.println("getSelectedFile() : " 
             +  chooser.getSelectedFile());
-        dcmFiles = chooser.getSelectedFile().list();
-        //sort dcmFiles based on InstanceNumber
-        //chooser.getSelectedFile() - current folder
-        //dcmFiles[1] - file        
+        dcmFiles = chooser.getSelectedFile().list();         
         
         System.out.println(chooser.getSelectedFile()+"/" + dcmFiles[1]);
         for(int i = 0; i < dcmFiles.length; i++) {

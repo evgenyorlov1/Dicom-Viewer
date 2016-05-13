@@ -17,13 +17,13 @@ import javax.imageio.ImageIO;
  *
  * @author pc
  */
-public class EntropyAlgorithm {
+public class shannonEntropyAlgorithm {
     
     
     public static void main(String[] args) throws IOException, DicomException {
         
         String path = System.getProperty("user.dir") + 
-                "/dicomImigies/img/IM-0001-0003.dcm";        
+                "/dicomImigies/img/030001.dcm";        
         SourceImage sImg = new SourceImage(path);         
         BufferedImage original = sImg.getBufferedImage();
         BufferedImage binarized = binarize(original);
@@ -43,34 +43,29 @@ public class EntropyAlgorithm {
                 histogram[red]++;
                 N++;
             }
-        } 
+        }         
         for(int i=0; i<histogram.length; i++) {
             histogram[i] /=  N; 
-        }              
+        }                      
         return histogram;
     }
     
-    
-    // DOIT
+        
     private static int entropyTreshold(BufferedImage original) {
          
         float[] histogram = imageHistogram(original);        
         int threshold = 0;                         
-        float sA = calculateEntropy(0, histogram, true);
-        float sB = calculateEntropy(0, histogram, false);        
-        float entropy = sA + sB;
-        System.out.println("entropy: " + entropy);
+        float sA = calculateEntropy(0, histogram, true);        
+        float sB = calculateEntropy(0, histogram, false);                
+        float entropy = sA + sB;        
         for(int i=1; i<histogram.length; i++) {
             sA = calculateEntropy(i, histogram, true);
-            sB = calculateEntropy(i, histogram, false);
+            sB = calculateEntropy(i, histogram, false);            
             if(sA+sB > entropy) {
                 threshold = i;
-                entropy = sA + sB;
-                System.out.println("entropy: " + entropy);
+                entropy = sA + sB;                
             }
-        }
-        System.out.println("Final entropy: " + entropy);
-        System.out.println("Threshold: " + threshold);
+        }        
         return threshold; 
     }       
     
@@ -83,21 +78,23 @@ public class EntropyAlgorithm {
         if(isSa) {
             for(int i=0; i<=index; i++) {
                 probability += histogram[i];
-            }
-            for(int i=0; i<=index; i++) {                
+            }            
+            for(int i=0; i<=index; i++) {
+                if(histogram[i] == 0f)
+                    continue;                
                 entropy += (histogram[i]/probability)*
                         Math.log(histogram[i]/probability);
-            }
-            System.out.println("true: " + entropy);
+            }            
         } else {
             for(int i=histogram.length-1; i>index; i--) {
                 probability += histogram[i];
             }
             for(int i=histogram.length-1; i>index; i--) {
+                if(histogram[i] == 0f)
+                    continue; 
                 entropy += (histogram[i]/probability)*
                         Math.log(histogram[i]/probability);
-            }
-            System.out.println("false: " + entropy);
+            }            
         }        
         return (-entropy);
     }
@@ -107,8 +104,7 @@ public class EntropyAlgorithm {
         
         int red;
         int newPixel;
-        float threshold = entropyTreshold(original);  // can very
-        System.exit(0);
+        float threshold = entropyTreshold(original);  // can very        
         BufferedImage binarized = new BufferedImage(original.getWidth(), 
                 original.getHeight(), BufferedImage.TYPE_INT_RGB);
         for(int i=0; i<original.getWidth(); i++) {
@@ -123,8 +119,7 @@ public class EntropyAlgorithm {
                     newPixel = 0;
                 }
                 newPixel = colorToRGB(alpha, newPixel, newPixel, newPixel);
-                binarized.setRGB(i, j, newPixel); 
- 
+                binarized.setRGB(i, j, newPixel);  
             }
         }
         return binarized;        
@@ -146,7 +141,7 @@ public class EntropyAlgorithm {
 
     private static void writeImage(BufferedImage binarized) throws IOException {
         
-        File file = new File("image333.jpg");
+        File file = new File("imageEntropy.jpg");
         ImageIO.write(binarized, "jpg", file);
         System.out.println("Done");        
     }                

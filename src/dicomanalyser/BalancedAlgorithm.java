@@ -23,7 +23,7 @@ public class BalancedAlgorithm {
     public static void main(String[] args) throws IOException, DicomException {
         
         String path = System.getProperty("user.dir") + 
-                "/dicomImigies/img/IM-0001-0003.dcm";        
+                "/dicomImigies/img/030001.dcm";        
         SourceImage sImg = new SourceImage(path);         
         BufferedImage original = sImg.getBufferedImage();
         BufferedImage binarized = binarize(original);
@@ -139,7 +139,7 @@ public class BalancedAlgorithm {
 
     private static void writeImage(BufferedImage binarized) throws IOException {
         
-        File file = new File("image333.jpg");
+        File file = new File("imageBalanced.jpg");
         ImageIO.write(binarized, "jpg", file);
         System.out.println("Done");        
     }

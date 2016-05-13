@@ -5,6 +5,9 @@
  */
 package dicomanalyser;
 
+import com.pixelmed.dicom.DicomException;
+import com.pixelmed.display.SourceImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -25,14 +28,36 @@ public class DICOMStore {
         } catch(Exception e) {System.out.println("DICOMStore.add error: " + e);}
     }
     
+    public DICOMImage getOne() throws IOException, DicomException {
+        
+        return dcmImages.get(0);
+    }
     
-    public DICOMImage get(float sliceLocation, int instanceNumber) {
+    public DICOMImage get(int sliceLocation, int instanceNumber) {
+        
+        sliceLocation = sliceLocation - 1;
+        instanceNumber -= 1;
+        ArrayList list = new ArrayList(z);                
+        TagSorter.insertionSort(list);             
+        
+        float slice = (float) list.get(sliceLocation);
+        ArrayList numbers = new ArrayList();        
+        for(int i=0; i<dcmImages.size(); i++) {
+            DICOMImage image = dcmImages.get(i);            
+            if((Float.compare(slice, image.sliceLocation) == 0)) {                
+                numbers.add(image.instanceNumber);                
+            }
+        }
+        
+        TagSorter.insertionSortInteger(numbers);
         for(int i=0; i<dcmImages.size(); i++) {
             DICOMImage image = dcmImages.get(i);
-            if((instanceNumber == image.instanceNumber) && (sliceLocation == image.sliceLocation)) {
+            if((Float.compare(slice, image.sliceLocation) == 0) && 
+                    (image.instanceNumber == (int) numbers.get(instanceNumber))) {
                 return image;
             }
         }
+        
         return dcmImages.get(3);
     }
     

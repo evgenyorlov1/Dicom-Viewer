@@ -27,7 +27,7 @@ public class ImagePane extends javax.swing.JFrame {
         tSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {   
                 JSlider source = (JSlider) e.getSource();
-                if(!source.getValueIsAdjusting()) {
+                if(!source.getValueIsAdjusting()) {                    
                     DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue()); 
                     dcmPanel.dirty(image.si);                    
                     dcmPanel.repaint();
@@ -38,7 +38,7 @@ public class ImagePane extends javax.swing.JFrame {
         zSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
                 JSlider source = (JSlider) e.getSource();
-                if(!source.getValueIsAdjusting()) {
+                if(!source.getValueIsAdjusting()) {                    
                     adjustTslider(zSlider.getValue());
                     DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue());                    
                     dcmPanel.dirty(image.si);               
@@ -64,15 +64,15 @@ public class ImagePane extends javax.swing.JFrame {
     private void initComponents(DICOMStore dcmFiles) {
 
         ArrayList z = new ArrayList(dcmFiles.z);
-        z = TagSorter.insertionSort(z); 
+        z = TagSorter.insertionSort(z);         
         
         jMenu7 = new javax.swing.JMenu();
         tSlider = new javax.swing.JSlider();
         zSlider = new javax.swing.JSlider();
         
         try {
-            dcmPanel = new SingleImagePanel(dcmFiles.get((float) z.get(0), dcmFiles.getMinT((float) z.get(0))).si); 
-        } catch(Exception e) {System.out.println();}                
+            dcmPanel = new SingleImagePanel(dcmFiles.getOne().si); 
+        } catch(Exception e) {System.out.println("ssdfsdf");}                
         
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -149,14 +149,13 @@ public class ImagePane extends javax.swing.JFrame {
         );
                                            
         zSlider.setMinimum(1);        
-        zSlider.setMaximum(dcmFiles.getZ());     
+        zSlider.setMaximum(dcmFiles.getZ()-1);     
         zSlider.setValue(1);
         zSlider.setMajorTickSpacing(1);
         zSlider.setPaintTicks(true);   
         
-        tSlider.setMinimum(1);
-        System.out.println((int) dcmFiles.getT((float) z.get(0)));
-        tSlider.setMaximum((int) dcmFiles.getT((float) z.get(0)));
+        tSlider.setMinimum(1);                
+        tSlider.setMaximum(50);
         tSlider.setValue(1);
         tSlider.setPaintTicks(true);
         tSlider.setMajorTickSpacing(1);                        
