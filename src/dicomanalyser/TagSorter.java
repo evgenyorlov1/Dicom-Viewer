@@ -61,7 +61,7 @@ public class TagSorter {
     }
     
     
-    public static ArrayList insertionSort(ArrayList z) {        
+    public static ArrayList insertionSortFloat(ArrayList z) {        
         try {
             for(int i=1; i<z.size(); i++) {                               
                 int j = i;

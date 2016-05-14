@@ -18,6 +18,7 @@ public class ImagePane extends javax.swing.JFrame {
 
     /**
      * Creates new form MainWindow
+     * @param dcmFiles
      */
     public ImagePane(DICOMStore dcmFiles) {
         setResizable(false);
@@ -47,12 +48,10 @@ public class ImagePane extends javax.swing.JFrame {
             }
             
             private void adjustTslider(int value) {
-                ArrayList z = new ArrayList(dcmFiles.z);
-                z = TagSorter.insertionSort(z);
-                float sliceLocation = (float) z.get(value);                
-                tSlider.setValue(1);
-                tSlider.setMinimum(1);        
-                tSlider.setMaximum(dcmFiles.getT(sliceLocation)); 
+                
+                tSlider.setValue(0);
+                tSlider.setMinimum(0);        
+                tSlider.setMaximum(dcmFiles.getTcount(value)); 
                 tSlider.setMajorTickSpacing(1);                
                 tSlider.setPaintTicks(true);                                
             }
@@ -68,7 +67,7 @@ public class ImagePane extends javax.swing.JFrame {
         zSlider = new javax.swing.JSlider();
         
         try {
-            dcmPanel = new SingleImagePanel(dcmFiles.getOne().si); // wrong first
+            dcmPanel = new SingleImagePanel(dcmFiles.get(0, 0).si);
         } catch(Exception e) {System.out.println("ssdfsdf");}                
         
         
@@ -147,15 +146,15 @@ public class ImagePane extends javax.swing.JFrame {
                 .addContainerGap())
         );
                                            
-        zSlider.setMinimum(1);        
-        zSlider.setMaximum(dcmFiles.getZ()); // issue with extra one   
-        zSlider.setValue(1);
+        zSlider.setMinimum(0); 
+        zSlider.setMaximum(dcmFiles.getZcount()); // issue with extra one   
+        zSlider.setValue(0); 
         zSlider.setMajorTickSpacing(1);        
         zSlider.setPaintTicks(true);   
         
-        tSlider.setMinimum(1);                
-        tSlider.setMaximum(50); // adjust to z
-        tSlider.setValue(1);
+        tSlider.setMinimum(0);                 
+        tSlider.setMaximum(dcmFiles.getTcount(0)); // adjust to z
+        tSlider.setValue(0); 
         tSlider.setPaintTicks(true);
         tSlider.setMajorTickSpacing(1);                        
         pack();

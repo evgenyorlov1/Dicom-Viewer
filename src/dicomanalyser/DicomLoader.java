@@ -5,7 +5,6 @@
  */
 package dicomanalyser;
 
-import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -17,7 +16,7 @@ import javax.swing.JFrame;
 public class DicomLoader {
     
     
-    public DICOMStore getFolder(JFrame frame) {
+    public static DICOMStore getFolder(JFrame frame) {
         DICOMStore dcmImages = new DICOMStore();
         String[] dcmFiles = null;
         JFileChooser chooser = new JFileChooser();
@@ -37,22 +36,22 @@ public class DicomLoader {
                 System.out.println("No Selection ");
             }            
         } catch(Exception e) {System.err.println("DicomLoader.getFolder error: " + e);}
-        
+        dcmImages.sortBySlice();
         return dcmImages;
     }   
     
     
-    public void getHistory() {
+    public static void getHistory() {
         
     }
     
     
-    public void getCloud() {
+    public static void getCloud() {
         
     }
     
     
-    public void getDatabase() {
+    public static void getDatabase() {
         
     }
 }
