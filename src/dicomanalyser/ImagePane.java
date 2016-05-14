@@ -62,18 +62,17 @@ public class ImagePane extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents(DICOMStore dcmFiles) {
-
-        ArrayList z = new ArrayList(dcmFiles.z);
-        z = TagSorter.insertionSort(z);         
-        
+                
         jMenu7 = new javax.swing.JMenu();
         tSlider = new javax.swing.JSlider();
         zSlider = new javax.swing.JSlider();
         
         try {
-            dcmPanel = new SingleImagePanel(dcmFiles.getOne().si); 
+            dcmPanel = new SingleImagePanel(dcmFiles.getOne().si); // wrong first
         } catch(Exception e) {System.out.println("ssdfsdf");}                
         
+        
+        //---------------------------------------------------------------------
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -149,13 +148,13 @@ public class ImagePane extends javax.swing.JFrame {
         );
                                            
         zSlider.setMinimum(1);        
-        zSlider.setMaximum(dcmFiles.getZ()-1);     
+        zSlider.setMaximum(dcmFiles.getZ()); // issue with extra one   
         zSlider.setValue(1);
-        zSlider.setMajorTickSpacing(1);
+        zSlider.setMajorTickSpacing(1);        
         zSlider.setPaintTicks(true);   
         
         tSlider.setMinimum(1);                
-        tSlider.setMaximum(50);
+        tSlider.setMaximum(50); // adjust to z
         tSlider.setValue(1);
         tSlider.setPaintTicks(true);
         tSlider.setMajorTickSpacing(1);                        

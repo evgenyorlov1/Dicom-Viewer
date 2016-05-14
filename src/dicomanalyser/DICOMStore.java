@@ -16,7 +16,7 @@ import java.util.HashSet;
  * @author pc
  */
 public class DICOMStore {
-    public HashSet z = new HashSet<>(); //sliceLocation
+    public HashSet z = new HashSet<>(); //sliceLocation    
     public ArrayList<DICOMImage> dcmImages = new ArrayList<>();
     
     
@@ -35,25 +35,28 @@ public class DICOMStore {
     
     public DICOMImage get(int sliceLocation, int instanceNumber) {
         
-        sliceLocation = sliceLocation - 1;
-        instanceNumber -= 1;
-        ArrayList list = new ArrayList(z);                
-        TagSorter.insertionSort(list);             
+        ArrayList instanceBySlice = new ArrayList();        
+        sliceLocation -= 1; // change slider to 0 and delete
+        instanceNumber -= 1; // change slider to 0 and delete
+        ArrayList list = new ArrayList(z); // move to header          
+        TagSorter.insertionSort(list); //move to .add
         
-        float slice = (float) list.get(sliceLocation);
-        ArrayList numbers = new ArrayList();        
+        float slice = (float) list.get(sliceLocation); //
         for(int i=0; i<dcmImages.size(); i++) {
             DICOMImage image = dcmImages.get(i);            
             if((Float.compare(slice, image.sliceLocation) == 0)) {                
-                numbers.add(image.instanceNumber);                
+                instanceBySlice.add(image.instanceNumber);                
             }
         }
         
-        TagSorter.insertionSortInteger(numbers);
+        TagSorter.insertionSortInteger(instanceBySlice);
         for(int i=0; i<dcmImages.size(); i++) {
             DICOMImage image = dcmImages.get(i);
             if((Float.compare(slice, image.sliceLocation) == 0) && 
-                    (image.instanceNumber == (int) numbers.get(instanceNumber))) {
+                    (image.instanceNumber == (int) instanceBySlice.get(instanceNumber))) {
+                System.out.println("------------------------");
+                System.out.println(image.instanceNumber);
+                System.out.println(image.sliceLocation);
                 return image;
             }
         }
