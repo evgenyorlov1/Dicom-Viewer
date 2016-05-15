@@ -7,6 +7,7 @@ package dicomanalyser;
 
 import com.pixelmed.display.*;
 import java.util.ArrayList;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 /**
@@ -18,29 +19,43 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form MainWindow
      */
-    public MainWindow(ArrayList<DICOMImage> dcmFiles) {
+    public MainWindow(DICOMStore dcmFiles) {
         setResizable(false);
         setVisible(true);
-        initComponents();
-        try {
-            String path = System.getProperty("user.dir") 
-                    + "/dicomImigies/img/IM-0001-0003.dcm";            
-            SingleImagePanel imagePane = 
-                    new SingleImagePanel(new SourceImage(path));   
-            add(imagePane);
-        } catch(Exception e) {}  
+        initComponents(dcmFiles);
         
-        jSlider1.addChangeListener(new ChangeListener() {
-           public void stateChanged(ChangeEvent e) {
-             //jLabel1.setText("Value : " + jSlider1.getValue());
-           }
+        
+        tSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {   
+                JSlider source = (JSlider) e.getSource();
+                if(!source.getValueIsAdjusting()) {                    
+                    DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue()); 
+                    dcmPanel.dirty(image.si);                    
+                    dcmPanel.repaint();
+                }
+            }                        
         });
         
-        jSlider2.addChangeListener(new ChangeListener() {
-           public void stateChanged(ChangeEvent e) {
-             //jLabel2.setText("Value : " + jSlider2.getValue());
-           }
-        });        
+        zSlider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                JSlider source = (JSlider) e.getSource();
+                if(!source.getValueIsAdjusting()) {                    
+                    adjustTslider(zSlider.getValue());
+                    DICOMImage image = dcmFiles.get(zSlider.getValue(), tSlider.getValue());                    
+                    dcmPanel.dirty(image.si);               
+                    dcmPanel.repaint();
+                }
+            }
+            
+            private void adjustTslider(int value) {
+                
+                tSlider.setValue(0);
+                tSlider.setMinimum(0);        
+                tSlider.setMaximum(dcmFiles.getTcount(value)); 
+                tSlider.setMajorTickSpacing(1);                
+                tSlider.setPaintTicks(true);                                
+            }
+        });            
     }
 
     /**
@@ -50,12 +65,17 @@ public class MainWindow extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
+    private void initComponents(DICOMStore dcmFiles) {
+	
         jMenu7 = new javax.swing.JMenu();
-        jSlider1 = new javax.swing.JSlider();
-        jSlider2 = new javax.swing.JSlider();
-        jPanel1 = new javax.swing.JPanel();
+        tSlider = new javax.swing.JSlider();
+        zSlider = new javax.swing.JSlider();
+        
+        try {
+            DICOMImage image = dcmFiles.get(0, 0);            
+            dcmPanel = new SingleImagePanelWithText(image.si); //switch to SingleImagePanelWithText
+        } catch(Exception e) {System.out.println("ImagePane.initComponents error: " + e);} 
+        
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -69,14 +89,14 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jSlider1.setToolTipText("Instance number");
+        tSlider.setToolTipText("Instance number");
 
-        jSlider2.setBackground(new java.awt.Color(52, 49, 255));
-        jSlider2.setOrientation(javax.swing.JSlider.VERTICAL);
-        jSlider2.setToolTipText("Slice location");
+        zSlider.setBackground(new java.awt.Color(52, 49, 255));
+        zSlider.setOrientation(javax.swing.JSlider.VERTICAL);
+        zSlider.setToolTipText("Slice location");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(dcmPanel);
+        dcmPanel.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
@@ -112,24 +132,35 @@ public class MainWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(zSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider1, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(tSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 796, Short.MAX_VALUE)
+                    .addComponent(dcmPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSlider2, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(zSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+                    .addComponent(dcmPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-
+        zSlider.setMinimum(0); 
+        zSlider.setMaximum(dcmFiles.getZcount());
+        zSlider.setValue(0); 
+        zSlider.setMajorTickSpacing(1);        
+        zSlider.setPaintTicks(true);   
+        
+        tSlider.setMinimum(0);                 
+        tSlider.setMaximum(dcmFiles.getTcount(0));
+        tSlider.setValue(0); 
+        tSlider.setPaintTicks(true);
+        tSlider.setMajorTickSpacing(1);        
+        
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -146,8 +177,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JSlider jSlider1;
-    private javax.swing.JSlider jSlider2;
+    private SingleImagePanelWithText dcmPanel;
+    private javax.swing.JSlider tSlider;
+    private javax.swing.JSlider zSlider;
     // End of variables declaration//GEN-END:variables
 }

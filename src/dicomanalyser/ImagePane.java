@@ -6,7 +6,6 @@
 package dicomanalyser;
 
 import com.pixelmed.display.*;
-import java.util.ArrayList;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -67,11 +66,11 @@ public class ImagePane extends javax.swing.JFrame {
         zSlider = new javax.swing.JSlider();
         
         try {
-            dcmPanel = new SingleImagePanel(dcmFiles.get(0, 0).si);
-        } catch(Exception e) {System.out.println("ssdfsdf");}                
+            DICOMImage image = dcmFiles.get(0, 0);            
+            dcmPanel = new SingleImagePanelWithText(image.si); //switch to SingleImagePanelWithText
+        } catch(Exception e) {System.out.println("ImagePane.initComponents error: " + e);}                
         
-        
-        //---------------------------------------------------------------------
+                
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -147,13 +146,13 @@ public class ImagePane extends javax.swing.JFrame {
         );
                                            
         zSlider.setMinimum(0); 
-        zSlider.setMaximum(dcmFiles.getZcount()); // issue with extra one   
+        zSlider.setMaximum(dcmFiles.getZcount());
         zSlider.setValue(0); 
         zSlider.setMajorTickSpacing(1);        
         zSlider.setPaintTicks(true);   
         
         tSlider.setMinimum(0);                 
-        tSlider.setMaximum(dcmFiles.getTcount(0)); // adjust to z
+        tSlider.setMaximum(dcmFiles.getTcount(0));
         tSlider.setValue(0); 
         tSlider.setPaintTicks(true);
         tSlider.setMajorTickSpacing(1);                        
@@ -173,7 +172,7 @@ public class ImagePane extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private SingleImagePanel dcmPanel;
+    private SingleImagePanelWithText dcmPanel;  //switch to SingleImagePanelWithText
     private javax.swing.JSlider tSlider; //t
     private javax.swing.JSlider zSlider; //z
     // End of variables declaration                   

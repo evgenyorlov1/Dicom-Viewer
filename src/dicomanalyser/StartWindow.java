@@ -104,7 +104,7 @@ public class StartWindow extends javax.swing.JFrame {
         DICOMStore dcmFiles;                      
         dcmFiles = DicomLoader.getFolder(this);    
         setVisible(false);                  
-        ImagePane pane = new ImagePane(dcmFiles);
+        MainWindow pane = new MainWindow(dcmFiles);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -335,8 +335,7 @@ public class DicomReader {
     private static void thresholdImage() {
         
     }
-    
-    
+        
     public static void load() throws IOException, DicomException {
         String path = System.getProperty("user.dir") + 
                 "/dicomImigies/alkhimova/030001.dcm"; 
